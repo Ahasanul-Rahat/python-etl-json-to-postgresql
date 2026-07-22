@@ -4,6 +4,7 @@
 :: ============================================
 
 :: Step 1: Go to PostgreSQL bin folder
+open CMD as Administrator type -
 cd "C:\Program Files\PostgreSQL\18\bin"
 
 :: Step 2: Create new data directory on D drive
