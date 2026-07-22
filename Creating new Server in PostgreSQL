@@ -1,0 +1,51 @@
+:: ============================================
+:: PostgreSQL Second Instance Setup - Port 5434
+:: Version: 18 | Drive: D
+:: ============================================
+
+:: Step 1: Go to PostgreSQL bin folder
+cd "C:\Program Files\PostgreSQL\18\bin"
+
+:: Step 2: Create new data directory on D drive
+mkdir "D:\PostgreSQL\data5434"
+
+:: Step 3: Initialize new PostgreSQL data cluster
+initdb -D "D:\PostgreSQL\data5434" -U postgres -W -E UTF8
+
+:: Step 4: Open postgresql.conf and change port
+:: File location: D:\PostgreSQL\data5434\postgresql.conf
+:: Find line: port = 5432
+:: Change to: port = 5434
+:: (Open manually in Notepad, edit, save)
+notepad "D:\PostgreSQL\data5434\postgresql.conf"
+
+:: Step 5: Register as Windows service
+pg_ctl register -N "postgresql-5434" -D "D:\PostgreSQL\data5434" -U postgres -P your_password
+
+:: Step 6: Start the service
+net start postgresql-5434
+
+:: Step 7: Verify service is running
+sc query postgresql-5434
+
+:: or use services.msc (Win+R write services.msc) manually search the "postgresql-5434" service and Start by clicking.
+
+:: ============================================
+:: pgAdmin Setup (manual steps, GUI)
+:: ============================================
+:: 1. Open pgAdmin 4
+:: 2. Right-click "Servers" -> Register -> Server
+:: 3. General tab -> Name: PG-5434
+:: 4. Connection tab:
+::    Host: localhost
+::    Port: 5434
+::    Username: postgres
+::    Password: (same as Step 5)
+:: 5. Save
+
+:: ============================================
+:: Verify Inside pgAdmin Query Tool
+:: ============================================
+:: Run this SQL query:
+:: SHOW port;
+:: Expected result: 5434
