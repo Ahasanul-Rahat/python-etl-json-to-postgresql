@@ -1,0 +1,193 @@
+# ==================================================================
+# Python Environment Setup for ETL, Data Analysis & Visualization
+# Stack: PostgreSQL, CSV, JSON, Excel, pandas, numpy, matplotlib, API
+# Windows | VS Code
+# ==================================================================
+
+# Step 1: Verify Python installation
+python --version
+
+# Step 2: Create project folder structure
+mkdir D:\python-projects\etl-project
+cd D:\python-projects\etl-project
+mkdir data
+mkdir data\raw
+mkdir data\processed
+mkdir notebooks
+mkdir scripts
+code .
+
+# Step 3: Create virtual environment
+python -m venv venv
+
+# Step 4: Activate virtual environment
+venv\Scripts\activate
+
+# ==================================================================
+# VS Code Extensions (install manually via Extensions panel - Ctrl+Shift+X)
+# ==================================================================
+# - Python (by Microsoft)
+# - Jupyter (by Microsoft)
+# - Pylance (auto-installs)
+# - Rainbow CSV (optional, helps view CSV files with colored columns)
+
+# ==================================================================
+# Step 5: Install all required libraries
+# ==================================================================
+
+# Core data handling
+pip install pandas numpy
+
+# Excel support (read/write .xlsx)
+pip install openpyxl xlrd
+
+# PostgreSQL connection
+pip install psycopg2-binary sqlalchemy
+
+# API requests
+pip install requests
+
+# Visualization
+pip install matplotlib seaborn plotly
+
+# Jupyter support
+pip install jupyter ipykernel
+
+# Environment variable management (for DB credentials, API keys - security best practice)
+pip install python-dotenv
+
+# ==================================================================
+# Step 6: Select Interpreter in VS Code (manual step)
+# ==================================================================
+# Ctrl+Shift+P -> "Python: Select Interpreter"
+# Choose: .\venv\Scripts\python.exe
+
+# ==================================================================
+# Step 7: Create .env file for credentials (NEVER hardcode passwords)
+# ==================================================================
+# File: .env
+# ---------------------------------------------
+# DB_HOST=localhost
+# DB_PORT=5433
+# DB_NAME=your_database
+# DB_USER=postgres
+# DB_PASSWORD=your_password
+# API_KEY=your_api_key_here
+# ---------------------------------------------
+
+# ==================================================================
+# Step 8: Create requirements.txt (for reproducibility / GitHub sharing)
+# ==================================================================
+pip freeze > requirements.txt
+
+# To reinstall later on any machine:
+# pip install -r requirements.txt
+
+# ==================================================================
+# Step 9: Create test.ipynb - Full Stack Verification Notebook
+# ==================================================================
+# Cell 1: Import all libraries
+# ---------------------------------------------
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import json
+# import requests
+# import psycopg2
+# from sqlalchemy import create_engine
+# from dotenv import load_dotenv
+# import os
+#
+# load_dotenv()
+# print("All libraries imported successfully!")
+# ---------------------------------------------
+
+# Cell 2: Test CSV read/write
+# ---------------------------------------------
+# df_csv = pd.DataFrame({'name': ['Rahat', 'Karim'], 'score': [90, 85]})
+# df_csv.to_csv('data/raw/sample.csv', index=False)
+# df_read = pd.read_csv('data/raw/sample.csv')
+# print(df_read)
+# ---------------------------------------------
+
+# Cell 3: Test JSON read/write
+# ---------------------------------------------
+# data_dict = {'employees': [{'name': 'Rahat', 'dept': 'Analytics'}]}
+# with open('data/raw/sample.json', 'w') as f:
+#     json.dump(data_dict, f, indent=4)
+#
+# with open('data/raw/sample.json', 'r') as f:
+#     data_loaded = json.load(f)
+# print(data_loaded)
+# ---------------------------------------------
+
+# Cell 4: Test Excel read/write
+# ---------------------------------------------
+# df_csv.to_excel('data/raw/sample.xlsx', index=False, sheet_name='Sheet1')
+# df_excel = pd.read_excel('data/raw/sample.xlsx')
+# print(df_excel)
+# ---------------------------------------------
+
+# Cell 5: Test PostgreSQL connection
+# ---------------------------------------------
+# DB_HOST = os.getenv('DB_HOST')
+# DB_PORT = os.getenv('DB_PORT')
+# DB_NAME = os.getenv('DB_NAME')
+# DB_USER = os.getenv('DB_USER')
+# DB_PASSWORD = os.getenv('DB_PASSWORD')
+#
+# engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+#
+# df_csv.to_sql('test_table', engine, if_exists='replace', index=False)
+# df_from_db = pd.read_sql('SELECT * FROM test_table', engine)
+# print(df_from_db)
+# ---------------------------------------------
+
+# Cell 6: Test API request
+# ---------------------------------------------
+# response = requests.get('https://jsonplaceholder.typicode.com/users')
+# api_data = response.json()
+# df_api = pd.DataFrame(api_data)
+# print(df_api[['name', 'email']].head())
+# ---------------------------------------------
+
+# Cell 7: Test visualization (matplotlib + seaborn)
+# ---------------------------------------------
+# fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+#
+# ax[0].plot(np.linspace(0, 10, 100), np.sin(np.linspace(0, 10, 100)))
+# ax[0].set_title('Matplotlib Test')
+#
+# sns.barplot(x='name', y='score', data=df_csv, ax=ax[1])
+# ax[1].set_title('Seaborn Test')
+#
+# plt.tight_layout()
+# plt.show()
+# ---------------------------------------------
+
+# Run each cell with: Shift+Enter
+# Top-right -> "Select Kernel" -> choose .\venv\Scripts\python.exe
+
+# ==================================================================
+# Step 10: Create .gitignore (if pushing to GitHub)
+# ==================================================================
+# File: .gitignore
+# ---------------------------------------------
+# venv/
+# .env
+# __pycache__/
+# *.pyc
+# data/raw/
+# data/processed/
+# .ipynb_checkpoints/
+# ---------------------------------------------
+
+# ==================================================================
+# Troubleshooting
+# ==================================================================
+# - psycopg2 install fails -> use psycopg2-binary instead (already included above)
+# - ipykernel error in notebook -> pip install ipykernel (inside venv)
+# - openpyxl missing error on Excel read/write -> pip install openpyxl
+# - .env variables not loading -> confirm load_dotenv() called before os.getenv()
+# - DB connection refused -> check port matches your actual PostgreSQL instance (5433/5434)
